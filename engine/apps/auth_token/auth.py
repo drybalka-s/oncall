@@ -148,10 +148,35 @@ class BasePluginAuthentication(BaseAuthentication):
             return None
 
         try:
-            return organization.users.get(user_id=user_id)
+            user = organization.users.get(user_id=user_id)
         except User.DoesNotExist:
             logger.info(f"auth request user not found - user_id={user_id}")
             return None
+
+        BasePluginAuthentication._refresh_user_permissions_from_context(request, user)
+        return user
+
+    @staticmethod
+    def _refresh_user_permissions_from_context(request: Request, user: User) -> None:
+        """Refresh the current user without waiting for the organization sync Celery task."""
+        try:
+            user_data = json.loads(request.headers.get("X-Oncall-User-Context"))
+        except (ValueError, TypeError):
+            return
+
+        if not isinstance(user_data, dict) or not isinstance(user_data.get("permissions"), list):
+            return
+
+        permissions = user_data["permissions"]
+        if not all(
+            isinstance(permission, dict) and isinstance(permission.get("action"), str) for permission in permissions
+        ):
+            return
+
+        normalized_permissions = [{"action": permission["action"]} for permission in permissions]
+        if user.permissions != normalized_permissions:
+            user.permissions = normalized_permissions
+            user.save(update_fields=["permissions"])
 
 
 class PluginAuthentication(BasePluginAuthentication):
@@ -168,11 +193,13 @@ class PluginAuthentication(BasePluginAuthentication):
         try:
             user_id = context.get("UserId", context.get("UserID"))
             if user_id is not None:
-                return organization.users.get(user_id=user_id)
+                user = organization.users.get(user_id=user_id)
             elif "Login" in context:
-                return organization.users.get(username=context["Login"])
+                user = organization.users.get(username=context["Login"])
             else:
                 raise exceptions.AuthenticationFailed("Grafana context must specify a User or UserID.")
+            BasePluginAuthentication._refresh_user_permissions_from_context(request, user)
+            return user
         except User.DoesNotExist:
             try:
                 user_data = dict(json.loads(request.headers.get("X-Oncall-User-Context")))

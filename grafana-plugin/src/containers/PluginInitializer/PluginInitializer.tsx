@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
 
+import { config } from '@grafana/runtime';
 import { Button, Stack, LoadingPlaceholder } from '@grafana/ui';
 import { REQUEST_HELP_URL, PLUGIN_CONFIG, IS_CURRENT_ENV_CLOUD } from 'helpers/consts';
 import { useInitializePlugin } from 'helpers/hooks';
 import { observer } from 'mobx-react';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router-dom';
 
 import { FullPageError } from 'components/FullPageError/FullPageError';
 import { RenderConditionally } from 'components/RenderConditionally/RenderConditionally';
@@ -33,7 +34,7 @@ export const PluginInitializer: FC<PluginInitializerProps> = observer(({ childre
 });
 
 const PluginNotConnectedFullPageError = observer(() => {
-  const isCurrentUserAdmin = window.grafanaBootData.user.orgRole === 'Admin';
+  const isCurrentUserAdmin = config.bootData.user.orgRole === 'Admin';
   const navigate = useNavigate();
 
   const getSubtitleExtension = () => {

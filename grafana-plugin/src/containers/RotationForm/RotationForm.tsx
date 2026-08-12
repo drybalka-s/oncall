@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { cx } from '@emotion/css';
 import {
@@ -95,6 +95,7 @@ const getStartShift = (start: dayjs.Dayjs, timezoneOffset: number, isNewRotation
 
 export const RotationForm = observer((props: RotationFormProps) => {
   const store = useStore();
+  const draggableRef = useRef<HTMLDivElement>(null);
 
   const {
     onHide,
@@ -542,6 +543,7 @@ export const RotationForm = observer((props: RotationFormProps) => {
         onDismiss={onHide}
         contentElement={(props, children) => (
           <Draggable
+            nodeRef={draggableRef}
             handle=".drag-handler"
             defaultClassName={'draggable'}
             positionOffset={{ x: 0, y: offsetTop }}
@@ -550,7 +552,9 @@ export const RotationForm = observer((props: RotationFormProps) => {
             onStart={onDraggableInit}
             onStop={(_e, data) => setDraggablePosition({ x: data.x, y: data.y })}
           >
-            <div {...props}>{children}</div>
+            <div {...props} ref={draggableRef}>
+              {children}
+            </div>
           </Draggable>
         )}
       >

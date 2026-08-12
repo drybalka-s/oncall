@@ -7,11 +7,11 @@ import dayjs from 'dayjs';
 import { HTML_ID } from 'helpers/DOM';
 import { UserActions } from 'helpers/authorization/authorization';
 import { observer } from 'mobx-react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { ScheduleFiltersType } from 'components/ScheduleFilters/ScheduleFilters.types';
 import { Tag } from 'components/Tag/Tag';
 import { Text } from 'components/Text/Text';
+import { CSSTransition, TransitionGroup } from 'components/Transition/Transition';
 import { Rotation } from 'containers/Rotation/Rotation';
 import { ScheduleOverrideForm } from 'containers/RotationForm/ScheduleOverrideForm';
 import { TimelineMarks } from 'containers/TimelineMarks/TimelineMarks';

@@ -4,8 +4,8 @@ import { Tooltip, Icon, useStyles2, IconButton, Switch, Checkbox, ConfirmModal, 
 import { PLUGIN_ROOT } from 'helpers/consts';
 import { useConfirmModal } from 'helpers/hooks';
 import { observer } from 'mobx-react';
-import Emoji from 'react-emoji-render';
 
+import Emoji from 'components/Emoji/Emoji';
 import { GTable, GTableProps } from 'components/GTable/GTable';
 import { IntegrationLogoWithTitle } from 'components/IntegrationLogo/IntegrationLogoWithTitle';
 import { Text } from 'components/Text/Text';

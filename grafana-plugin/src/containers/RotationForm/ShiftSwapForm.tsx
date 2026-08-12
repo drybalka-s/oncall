@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { css, cx } from '@emotion/css';
 import { Button, Field, IconButton, Input, TextArea, Stack, useStyles2 } from '@grafana/ui';
@@ -33,6 +33,7 @@ interface ShiftSwapFormProps {
 
 export const ShiftSwapForm = (props: ShiftSwapFormProps) => {
   const { onUpdate, onHide, id, scheduleId, params: defaultParams } = props;
+  const draggableRef = useRef<HTMLDivElement>(null);
 
   const [shiftSwap, setShiftSwap] = useState({ ...defaultParams });
   const [offsetTop, setOffsetTop] = useState(GRAFANA_HEADER_HEIGHT + 10);
@@ -148,6 +149,7 @@ export const ShiftSwapForm = (props: ShiftSwapFormProps) => {
       onDismiss={handleHide}
       contentElement={(props, children) => (
         <Draggable
+          nodeRef={draggableRef}
           handle=".drag-handler"
           defaultClassName="draggable"
           positionOffset={{ x: 0, y: offsetTop }}
@@ -156,7 +158,9 @@ export const ShiftSwapForm = (props: ShiftSwapFormProps) => {
           onStart={onDraggableInit}
           onStop={(_e, data) => setDraggablePosition({ x: data.x, y: data.y })}
         >
-          <div {...props}>{children}</div>
+          <div {...props} ref={draggableRef}>
+            {children}
+          </div>
         </Draggable>
       )}
     >

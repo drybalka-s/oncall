@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 
 import { css, cx } from '@emotion/css';
 import { GrafanaTheme2 } from '@grafana/data';
@@ -28,7 +28,7 @@ export enum TagColor {
   ERROR_LABEL = 'errorLabel',
 }
 
-export const Tag: FC<TagProps> = (props) => {
+export const Tag = React.forwardRef<HTMLSpanElement, TagProps>(function Tag(props, ref) {
   const { color, children, className, onClick, size = 'medium' } = props;
   const theme = useTheme2();
 
@@ -38,7 +38,7 @@ export const Tag: FC<TagProps> = (props) => {
     <span
       className={cx(styles.root, bem(styles.root, size), getMatchingClass(), className)}
       onClick={onClick}
-      ref={props.forwardedRef}
+      ref={props.forwardedRef ?? ref}
     >
       {children}
     </span>
@@ -102,4 +102,4 @@ export const Tag: FC<TagProps> = (props) => {
       errorLabel: getLabelCss('red', theme),
     };
   }
-};
+});

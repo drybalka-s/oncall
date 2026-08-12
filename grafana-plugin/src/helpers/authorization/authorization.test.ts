@@ -46,7 +46,7 @@ describe('isUserActionAllowed', () => {
     contextSrv.user.permissions = {
       [permission]: true,
     };
-    config.featureToggles.accessControlOnCall = true;
+    (config.featureToggles as Record<string, boolean>).accessControlOnCall = true;
 
     // test + assertions
     expect(auth.isUserActionAllowed({ permission, fallbackMinimumRoleRequired: OrgRole.Viewer })).toEqual(true);
@@ -56,7 +56,7 @@ describe('isUserActionAllowed', () => {
     // mocks
     const permission = 'potato';
     contextSrv.user.orgRole = OrgRole.Editor;
-    config.featureToggles.accessControlOnCall = false;
+    (config.featureToggles as Record<string, boolean>).accessControlOnCall = false;
 
     // test + assertions
     expect(auth.isUserActionAllowed({ permission, fallbackMinimumRoleRequired: OrgRole.Viewer })).toEqual(true);
@@ -71,7 +71,7 @@ describe('determineRequiredAuthString', () => {
     [true, `${testPerm.permission} permission`],
     [false, `${testPerm.fallbackMinimumRoleRequired} role`],
   ])('RBAC enabled: %s', (rbacEnabled, expected) => {
-    config.featureToggles.accessControlOnCall = rbacEnabled;
+    (config.featureToggles as Record<string, boolean>).accessControlOnCall = rbacEnabled;
 
     expect(auth.determineRequiredAuthString(testPerm)).toBe(expected);
   });
@@ -84,7 +84,7 @@ describe('generateMissingPermissionMessage', () => {
     [true, `You are missing the ${testPerm.permission} permission`],
     [false, `You are missing the ${testPerm.fallbackMinimumRoleRequired} role`],
   ])('RBAC enabled: %s', (rbacEnabled, expected) => {
-    config.featureToggles.accessControlOnCall = rbacEnabled;
+    (config.featureToggles as Record<string, boolean>).accessControlOnCall = rbacEnabled;
 
     expect(auth.generateMissingPermissionMessage(testPerm)).toBe(expected);
   });

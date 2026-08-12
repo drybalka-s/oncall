@@ -1,11 +1,8 @@
 import React, { ReactElement, useEffect, useMemo, useState } from 'react';
 
 import { PluginExtensionLink, SelectableValue } from '@grafana/data';
-import {
-  type GetPluginExtensionsOptions,
-  getPluginLinkExtensions,
-  usePluginLinks as originalUsePluginLinks,
-} from '@grafana/runtime';
+import { type UsePluginLinksOptions, usePluginLinks as originalUsePluginLinks } from '@grafana/runtime';
+import * as grafanaRuntime from '@grafana/runtime';
 import { Button, Dropdown, Modal, Select, Stack, ToolbarButton } from '@grafana/ui';
 import { OnCallPluginExtensionPoints } from 'app-types';
 import { StackSize } from 'helpers/consts';
@@ -26,6 +23,11 @@ interface Props {
 
 // `usePluginLinks()` is only available in Grafana>=11.1.0, so we have a fallback for older versions
 const usePluginLinks = originalUsePluginLinks === undefined ? usePluginLinksFallback : originalUsePluginLinks;
+
+type GetPluginLinkExtensions = (options: UsePluginLinksOptions) => { extensions: PluginExtensionLink[] };
+const getPluginLinkExtensions = (
+  grafanaRuntime as typeof grafanaRuntime & { getPluginLinkExtensions?: GetPluginLinkExtensions }
+).getPluginLinkExtensions;
 
 export function ExtensionLinkDropdown({
   alertGroup,
@@ -142,7 +144,7 @@ function useExtensionPointContext(incident: ApiSchemas['AlertGroup']): PluginExt
   return { alertGroup: incident };
 }
 
-function usePluginLinksFallback({ context, extensionPointId, limitPerPlugin }: GetPluginExtensionsOptions): {
+function usePluginLinksFallback({ context, extensionPointId, limitPerPlugin }: UsePluginLinksOptions): {
   links: PluginExtensionLink[];
   isLoading: boolean;
 } {

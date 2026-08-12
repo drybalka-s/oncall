@@ -31,7 +31,13 @@ if (isUseProfileExtensionPointEnabled()) {
   } else if ('configureExtensionComponent' in plugin) {
     // v10 only (configureExtensionComponent removed in v12)
     // eslint-disable-next-line
-    plugin.configureExtensionComponent({
+    const configureExtensionComponent = plugin.configureExtensionComponent as (options: {
+      component: typeof MobileAppConnectionWrapper;
+      title: string;
+      description: string;
+      extensionPointId: string;
+    }) => void;
+    configureExtensionComponent({
       component: MobileAppConnectionWrapper,
       title: IRM_TAB,
       description: 'IRM settings',

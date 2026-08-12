@@ -13,11 +13,11 @@ import { TableColumn } from 'helpers/types';
 import { capitalize } from 'lodash-es';
 import { observer } from 'mobx-react';
 import moment from 'moment-timezone';
-import Emoji from 'react-emoji-render';
 import { bem, getUtilStyles } from 'styles/utils.styles';
 
 import { CardButton } from 'components/CardButton/CardButton';
 import { CursorPagination } from 'components/CursorPagination/CursorPagination';
+import Emoji from 'components/Emoji/Emoji';
 import { GTable } from 'components/GTable/GTable';
 import { IntegrationLogo } from 'components/IntegrationLogo/IntegrationLogo';
 import { ManualAlertGroup } from 'components/ManualAlertGroup/ManualAlertGroup';

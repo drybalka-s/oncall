@@ -12,9 +12,9 @@ import { debounce } from 'lodash-es';
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import Emoji from 'react-emoji-render';
 import { getUtilStyles } from 'styles/utils.styles';
 
+import Emoji from 'components/Emoji/Emoji';
 import { GTable } from 'components/GTable/GTable';
 import { HamburgerMenuIcon } from 'components/HamburgerMenuIcon/HamburgerMenuIcon';
 import { IntegrationLogo } from 'components/IntegrationLogo/IntegrationLogo';

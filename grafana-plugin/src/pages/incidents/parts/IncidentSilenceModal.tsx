@@ -60,6 +60,7 @@ const IncidentSilenceModal: React.FC<IncidentSilenceModalProps> = ({
       onDismiss={onDismiss}
       closeOnBackdropClick={false}
       isOpen={isOpen}
+      ariaLabel={`Silence alert group ${alertGroupID}`}
       title={
         <Text.Title
           level={4}

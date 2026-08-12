@@ -8,7 +8,7 @@ import { DEFAULT_PAGE, getOnCallApiUrl } from 'helpers/consts';
 import { FaroHelper } from 'helpers/faro';
 import { useOnMount } from 'helpers/hooks';
 import { observer, Provider } from 'mobx-react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom-v5-compat';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import { RenderConditionally } from 'components/RenderConditionally/RenderConditionally';
 import { Unauthorized } from 'components/Unauthorized/Unauthorized';
@@ -116,7 +116,7 @@ export const Root = observer((props: AppRootProps) => {
           css`
             position: relative;
             flex-grow: 1;
-          `,
+          `
         )}
       >
         <RenderConditionally

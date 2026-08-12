@@ -6,7 +6,7 @@ from django.utils import timezone
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.test import APIRequestFactory
 
-from apps.auth_token.auth import PluginAuthentication
+from apps.auth_token.auth import BasePluginAuthentication, PluginAuthentication
 
 INSTANCE_CONTEXT = '{"stack_id": 42, "org_id": 24, "grafana_token": "abc"}'
 
@@ -25,6 +25,36 @@ def test_plugin_authentication_self_hosted_success(make_organization, make_user,
     request = APIRequestFactory().get("/", **headers)
 
     assert PluginAuthentication().authenticate(request) == (user, token)
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize("authentication_class", [BasePluginAuthentication, PluginAuthentication])
+def test_plugin_authentication_refreshes_stale_rbac_permissions(
+    authentication_class, make_organization, make_user, make_token_for_organization
+):
+    organization = make_organization(stack_id=42, org_id=24, is_rbac_permissions_enabled=True)
+    user = make_user(organization=organization, user_id=12, permissions=[])
+    token, token_string = make_token_for_organization(organization)
+    permissions = [
+        {"action": "grafana-oncall-app.schedules:read"},
+        {"action": "grafana-oncall-app.schedules:write"},
+    ]
+
+    headers = {
+        "HTTP_AUTHORIZATION": token_string,
+        "HTTP_X-Instance-Context": INSTANCE_CONTEXT,
+        "HTTP_X-Grafana-Context": '{"UserId": 12}',
+        "HTTP_X-Oncall-User-Context": json.dumps({"permissions": permissions}),
+    }
+    request = APIRequestFactory().get("/", **headers)
+
+    authenticated_user, authenticated_token = authentication_class().authenticate(request)
+
+    assert authenticated_token == token
+    assert authenticated_user == user
+    assert authenticated_user.permissions == permissions
+    user.refresh_from_db()
+    assert user.permissions == permissions
 
 
 @pytest.mark.django_db

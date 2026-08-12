@@ -4,9 +4,9 @@ import { SelectableValue } from '@grafana/data';
 import { Button, Field, Input, RadioButtonList, Select, Switch, useStyles2 } from '@grafana/ui';
 import { generateAssignToTeamInputDescription } from 'helpers/consts';
 import { observer } from 'mobx-react';
-import Emoji from 'react-emoji-render';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import Emoji from 'components/Emoji/Emoji';
 import { MonacoEditor } from 'components/MonacoEditor/MonacoEditor';
 import { MONACO_EDITABLE_CONFIG } from 'components/MonacoEditor/MonacoEditor.config';
 import { RenderConditionally } from 'components/RenderConditionally/RenderConditionally';
@@ -213,6 +213,7 @@ export const OutgoingWebhookFormFields: React.FC<OutgoingWebhookFormFieldsProps>
                   />
                 </div>
                 <Button
+                  aria-label="Edit webhook URL template"
                   icon="edit"
                   variant="secondary"
                   onClick={() =>
@@ -243,6 +244,7 @@ export const OutgoingWebhookFormFields: React.FC<OutgoingWebhookFormFieldsProps>
                   />
                 </div>
                 <Button
+                  aria-label="Edit webhook headers template"
                   icon="edit"
                   variant="secondary"
                   onClick={() =>
@@ -307,6 +309,7 @@ export const OutgoingWebhookFormFields: React.FC<OutgoingWebhookFormFieldsProps>
                   />
                 </div>
                 <Button
+                  aria-label="Edit webhook trigger template"
                   icon="edit"
                   variant="secondary"
                   onClick={() =>
@@ -365,6 +368,7 @@ export const OutgoingWebhookFormFields: React.FC<OutgoingWebhookFormFieldsProps>
                         />
                       </div>
                       <Button
+                        aria-label="Edit webhook data template"
                         icon="edit"
                         variant="secondary"
                         onClick={() =>

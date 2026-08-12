@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { cx } from '@emotion/css';
 import { LoadingPlaceholder, Stack, useStyles2 } from '@grafana/ui';
@@ -36,155 +36,157 @@ interface RotationProps {
   scheduleView?: ScheduleView;
 }
 
-export const Rotation: FC<RotationProps> = observer((props) => {
-  const {
-    timezoneStore: { calendarStartDate, getDateInSelectedTimezone, selectedTimezoneOffset },
-    scheduleStore: { scheduleView: storeScheduleView },
-  } = useStore();
-  const {
-    events,
-    color: propsColor,
-    transparent = false,
-    onClick,
-    handleAddOverride,
-    handleAddShiftSwap,
-    handleOpenSchedule,
-    onShiftSwapClick,
-    simplified,
-    filters,
-    getColor,
-    onSlotClick,
-    emptyText,
-    showScheduleNameAsSlotTitle,
-    startDate: propsStartDate,
-    scheduleView: propsScheduleView,
-  } = props;
+export const Rotation = observer(
+  React.forwardRef<HTMLDivElement, RotationProps>(function Rotation(props, ref) {
+    const {
+      timezoneStore: { calendarStartDate, getDateInSelectedTimezone, selectedTimezoneOffset },
+      scheduleStore: { scheduleView: storeScheduleView },
+    } = useStore();
+    const {
+      events,
+      color: propsColor,
+      transparent = false,
+      onClick,
+      handleAddOverride,
+      handleAddShiftSwap,
+      handleOpenSchedule,
+      onShiftSwapClick,
+      simplified,
+      filters,
+      getColor,
+      onSlotClick,
+      emptyText,
+      showScheduleNameAsSlotTitle,
+      startDate: propsStartDate,
+      scheduleView: propsScheduleView,
+    } = props;
 
-  const scheduleView = propsScheduleView || storeScheduleView;
+    const scheduleView = propsScheduleView || storeScheduleView;
 
-  const startDate = propsStartDate || calendarStartDate;
+    const startDate = propsStartDate || calendarStartDate;
 
-  const days = scheduleViewToDaysInOneRow[scheduleView];
+    const days = scheduleViewToDaysInOneRow[scheduleView];
 
-  const styles = useStyles2(getRotationStyles);
+    const styles = useStyles2(getRotationStyles);
 
-  const handleRotationClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = event.clientX - rect.left; //x position within the element.
-    const width = event.currentTarget.offsetWidth;
+    const handleRotationClick = (event: React.MouseEvent<HTMLDivElement>) => {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const x = event.clientX - rect.left; //x position within the element.
+      const width = event.currentTarget.offsetWidth;
 
-    const dayOffset = Math.floor((x / width) * scheduleViewToDaysInOneRow[scheduleView]);
+      const dayOffset = Math.floor((x / width) * scheduleViewToDaysInOneRow[scheduleView]);
 
-    const shiftStart = startDate.add(dayOffset, 'day');
-    const shiftEnd = shiftStart.add(1, 'day');
+      const shiftStart = startDate.add(dayOffset, 'day');
+      const shiftEnd = shiftStart.add(1, 'day');
 
-    onClick(shiftStart, shiftEnd);
-  };
-
-  const getAddOverrideClickHandler = (scheduleEvent: Event) => {
-    if (simplified) {
-      return undefined;
-    }
-
-    return (event: React.MouseEvent<HTMLDivElement>) => {
-      event.stopPropagation();
-
-      handleAddOverride(dayjs(scheduleEvent.start), dayjs(scheduleEvent.end));
+      onClick(shiftStart, shiftEnd);
     };
-  };
 
-  const getAddShiftSwapClickHandler = (scheduleEvent: Event) => {
-    if (simplified) {
-      return undefined;
-    }
+    const getAddOverrideClickHandler = (scheduleEvent: Event) => {
+      if (simplified) {
+        return undefined;
+      }
 
-    return (event: React.MouseEvent<HTMLDivElement>) => {
-      event.stopPropagation();
+      return (event: React.MouseEvent<HTMLDivElement>) => {
+        event.stopPropagation();
 
-      handleAddShiftSwap('new', {
-        swap_start: scheduleEvent.start,
-        swap_end: scheduleEvent.end,
-      });
+        handleAddOverride(dayjs(scheduleEvent.start), dayjs(scheduleEvent.end));
+      };
     };
-  };
 
-  const getOpenScheduleClickHandler = (scheduleEvent: Event) => {
-    if (!handleOpenSchedule) {
-      return undefined;
-    }
+    const getAddShiftSwapClickHandler = (scheduleEvent: Event) => {
+      if (simplified) {
+        return undefined;
+      }
 
-    return (event: React.MouseEvent<HTMLDivElement>) => {
-      event.stopPropagation();
+      return (event: React.MouseEvent<HTMLDivElement>) => {
+        event.stopPropagation();
 
-      handleOpenSchedule(scheduleEvent);
+        handleAddShiftSwap('new', {
+          swap_start: scheduleEvent.start,
+          swap_end: scheduleEvent.end,
+        });
+      };
     };
-  };
 
-  const getSlotClickHandler = (event: Event) => {
-    if (!onSlotClick) {
-      return undefined;
-    }
-    return (e) => {
-      e.stopPropagation();
+    const getOpenScheduleClickHandler = (scheduleEvent: Event) => {
+      if (!handleOpenSchedule) {
+        return undefined;
+      }
 
-      onSlotClick(event);
+      return (event: React.MouseEvent<HTMLDivElement>) => {
+        event.stopPropagation();
+
+        handleOpenSchedule(scheduleEvent);
+      };
     };
-  };
 
-  const x = useMemo(() => {
-    if (!events || !events.length) {
-      return 0;
-    }
+    const getSlotClickHandler = (event: Event) => {
+      if (!onSlotClick) {
+        return undefined;
+      }
+      return (e) => {
+        e.stopPropagation();
 
-    const firstShift = events[0];
-    const firstShiftOffset = getDateInSelectedTimezone(firstShift.start).diff(
-      getDateInSelectedTimezone(startDate),
-      'seconds'
-    );
-    const base = 60 * 60 * 24 * days;
+        onSlotClick(event);
+      };
+    };
 
-    return firstShiftOffset / base;
-  }, [events, startDate, selectedTimezoneOffset]);
+    const x = useMemo(() => {
+      if (!events || !events.length) {
+        return 0;
+      }
 
-  return (
-    <div className={styles.root} onClick={onClick && handleRotationClick}>
-      <div className={styles.timeline}>
-        {events ? (
-          events.length ? (
-            <div
-              className={cx(styles.slots, { [styles.slotsTransparent]: transparent })}
-              style={{ transform: `translate(${x * 100}%, 0)` }}
-            >
-              {events.map((event) => {
-                return (
-                  <ScheduleSlot
-                    scheduleView={scheduleView}
-                    key={hash(event)}
-                    event={event}
-                    color={propsColor || getColor(event)}
-                    handleAddOverride={getAddOverrideClickHandler(event)}
-                    handleAddShiftSwap={getAddShiftSwapClickHandler(event)}
-                    handleOpenSchedule={getOpenScheduleClickHandler(event)}
-                    onShiftSwapClick={onShiftSwapClick}
-                    filters={filters}
-                    onClick={getSlotClickHandler(event)}
-                    showScheduleNameAsSlotTitle={showScheduleNameAsSlotTitle}
-                  />
-                );
-              })}
-            </div>
+      const firstShift = events[0];
+      const firstShiftOffset = getDateInSelectedTimezone(firstShift.start).diff(
+        getDateInSelectedTimezone(startDate),
+        'seconds'
+      );
+      const base = 60 * 60 * 24 * days;
+
+      return firstShiftOffset / base;
+    }, [events, startDate, selectedTimezoneOffset]);
+
+    return (
+      <div ref={ref} className={styles.root} onClick={onClick && handleRotationClick}>
+        <div className={styles.timeline}>
+          {events ? (
+            events.length ? (
+              <div
+                className={cx(styles.slots, { [styles.slotsTransparent]: transparent })}
+                style={{ transform: `translate(${x * 100}%, 0)` }}
+              >
+                {events.map((event) => {
+                  return (
+                    <ScheduleSlot
+                      scheduleView={scheduleView}
+                      key={hash(event)}
+                      event={event}
+                      color={propsColor || getColor(event)}
+                      handleAddOverride={getAddOverrideClickHandler(event)}
+                      handleAddShiftSwap={getAddShiftSwapClickHandler(event)}
+                      handleOpenSchedule={getOpenScheduleClickHandler(event)}
+                      onShiftSwapClick={onShiftSwapClick}
+                      filters={filters}
+                      onClick={getSlotClickHandler(event)}
+                      showScheduleNameAsSlotTitle={showScheduleNameAsSlotTitle}
+                    />
+                  );
+                })}
+              </div>
+            ) : (
+              <Empty text={emptyText} />
+            )
           ) : (
-            <Empty text={emptyText} />
-          )
-        ) : (
-          <Stack alignItems="center" justifyContent="center">
-            <LoadingPlaceholder text="Loading shifts..." />
-          </Stack>
-        )}
+            <Stack alignItems="center" justifyContent="center">
+              <LoadingPlaceholder text="Loading shifts..." />
+            </Stack>
+          )}
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  })
+);
 
 const Empty = ({ text }: { text: string }) => {
   const styles = useStyles2(getRotationStyles);
