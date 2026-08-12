@@ -115,6 +115,20 @@ class TestLegacyAccessControlCompatiblePermission:
                 True,
                 False,
             ),
+            (
+                permissions.RBACPermission.Permissions.SCHEDULES_WRITE,
+                permissions.LegacyAccessControlRole.VIEWER,
+                False,
+                False,
+                True,
+            ),
+            (
+                permissions.RBACPermission.Permissions.SCHEDULES_EXPORT,
+                permissions.LegacyAccessControlRole.VIEWER,
+                False,
+                False,
+                True,
+            ),
         ],
     )
     @pytest.mark.django_db

@@ -64,6 +64,23 @@ describe('isUserActionAllowed', () => {
   });
 });
 
+describe('schedule permissions', () => {
+  test('Viewer can edit and export schedules without RBAC', () => {
+    contextSrv.user.orgRole = OrgRole.Viewer;
+    (config.featureToggles as Record<string, boolean>).accessControlOnCall = false;
+
+    expect(auth.isUserActionAllowed(auth.UserActions.SchedulesWrite)).toEqual(true);
+    expect(auth.isUserActionAllowed(auth.UserActions.SchedulesExport)).toEqual(true);
+  });
+
+  test('None role cannot edit schedules without RBAC', () => {
+    contextSrv.user.orgRole = OrgRole.None;
+    (config.featureToggles as Record<string, boolean>).accessControlOnCall = false;
+
+    expect(auth.isUserActionAllowed(auth.UserActions.SchedulesWrite)).toEqual(false);
+  });
+});
+
 describe('determineRequiredAuthString', () => {
   const testPerm = auth.UserActions.UserSettingsRead;
 

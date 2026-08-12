@@ -225,7 +225,7 @@
     {
       "role": {
         "name": "Reader",
-        "description": "Read-only access to everything in OnCall",
+        "description": "Read access to OnCall and read/write access to schedules",
         "permissions": [
           { "action": "plugins.app:access", "scope": "plugins:id:grafana-oncall-app" },
 
@@ -233,6 +233,8 @@
           { "action": "grafana-oncall-app.integrations:read" },
           { "action": "grafana-oncall-app.escalation-chains:read" },
           { "action": "grafana-oncall-app.schedules:read" },
+          { "action": "grafana-oncall-app.schedules:write" },
+          { "action": "grafana-oncall-app.schedules:export" },
           { "action": "grafana-oncall-app.chatops:read" },
           { "action": "grafana-oncall-app.outgoing-webhooks:read" },
           { "action": "grafana-oncall-app.maintenance:read" },
