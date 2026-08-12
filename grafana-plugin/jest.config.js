@@ -32,6 +32,7 @@ module.exports = {
 
   testTimeout: 10000,
   testPathIgnorePatterns: ['/node_modules/', '/e2e-tests/'],
+  transformIgnorePatterns: [],
   transform: {
     '^.+\\.(t|j)sx?$': [
       '@swc/jest',

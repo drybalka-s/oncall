@@ -21,8 +21,8 @@ import { debounce, isUndefined, omitBy, pickBy } from 'lodash-es';
 import { observer } from 'mobx-react';
 import moment from 'moment-timezone';
 import ReactDOM from 'react-dom';
-import Emoji from 'react-emoji-render';
 
+import Emoji from 'components/Emoji/Emoji';
 import { RenderConditionally } from 'components/RenderConditionally/RenderConditionally';
 import { Text } from 'components/Text/Text';
 import { LabelsFilter } from 'containers/Labels/LabelsFilter';

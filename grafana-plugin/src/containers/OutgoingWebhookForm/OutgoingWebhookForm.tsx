@@ -7,7 +7,7 @@ import { PLUGIN_ROOT } from 'helpers/consts';
 import { KeyValuePair } from 'helpers/helpers';
 import { observer } from 'mobx-react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router-dom';
 
 import { Text } from 'components/Text/Text';
 import { OutgoingWebhookStatus } from 'containers/OutgoingWebhookStatus/OutgoingWebhookStatus';
@@ -100,11 +100,7 @@ export const OutgoingWebhookForm = observer((props: OutgoingWebhookFormProps) =>
     defaultValues: data,
   });
 
-  const {
-    setValue,
-    reset,
-    setError,
-  } = formMethods;
+  const { setValue, reset, setError } = formMethods;
 
   const onSubmit = useCallback(
     async (rawData: Partial<ApiSchemas['Webhook']>) => {

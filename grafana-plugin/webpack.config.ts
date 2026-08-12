@@ -7,6 +7,7 @@ import grafanaConfig from './.config/webpack/webpack.config';
 const config = async (env): Promise<Configuration> => {
   const baseConfig = await grafanaConfig(env);
   const customConfig = {
+    externals: ['react/jsx-runtime', 'react/jsx-dev-runtime'],
     module: {
       rules: [
         {
@@ -76,7 +77,7 @@ const config = async (env): Promise<Configuration> => {
     ],
   };
 
-  return mergeWithRules({
+  const mergedConfig = mergeWithRules({
     module: {
       rules: {
         test: CustomizeRule.Match,
@@ -88,6 +89,14 @@ const config = async (env): Promise<Configuration> => {
     },
     plugins: CustomizeRule.Replace,
   })(baseConfig, customConfig);
+
+  // Grafana 13 exposes React Router v6 through `react-router`. Bundle the DOM adapter so it does not resolve to
+  // Grafana's legacy `react-router-dom` compatibility module.
+  if (Array.isArray(mergedConfig.externals)) {
+    mergedConfig.externals = mergedConfig.externals.filter((external) => external !== 'react-router-dom');
+  }
+
+  return mergedConfig;
 };
 
 export default config;

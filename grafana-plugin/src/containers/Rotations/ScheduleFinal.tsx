@@ -6,11 +6,11 @@ import { Stack, useStyles2, withTheme2 } from '@grafana/ui';
 import dayjs from 'dayjs';
 import { HTML_ID } from 'helpers/DOM';
 import { observer } from 'mobx-react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { bem } from 'styles/utils.styles';
 
 import { ScheduleFiltersType } from 'components/ScheduleFilters/ScheduleFilters.types';
 import { Text } from 'components/Text/Text';
+import { CSSTransition, TransitionGroup } from 'components/Transition/Transition';
 import { Rotation } from 'containers/Rotation/Rotation';
 import { TimelineMarks } from 'containers/TimelineMarks/TimelineMarks';
 import {

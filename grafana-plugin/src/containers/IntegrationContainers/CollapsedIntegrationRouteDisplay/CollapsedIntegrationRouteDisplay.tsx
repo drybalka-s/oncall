@@ -173,7 +173,6 @@ export const CollapsedIntegrationRouteDisplay: React.FC<CollapsedIntegrationRout
             title="Delete route?"
             body="Are you sure you want to delete this route?"
             confirmText="Delete"
-            icon="exclamation-triangle"
             onConfirm={onRouteDeleteConfirm}
             onDismiss={() => setRouteIdForDeletion(undefined)}
           />

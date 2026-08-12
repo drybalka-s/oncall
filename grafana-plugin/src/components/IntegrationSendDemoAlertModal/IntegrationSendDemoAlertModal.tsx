@@ -4,9 +4,9 @@ import { Button, Icon, Modal, Tooltip, Stack, useStyles2 } from '@grafana/ui';
 import { StackSize } from 'helpers/consts';
 import { openNotification } from 'helpers/helpers';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import Emoji from 'react-emoji-render';
 import { debounce } from 'throttle-debounce';
 
+import Emoji from 'components/Emoji/Emoji';
 import { MonacoEditor, MonacoLanguage } from 'components/MonacoEditor/MonacoEditor';
 import { MONACO_EDITABLE_CONFIG } from 'components/MonacoEditor/MonacoEditor.config';
 import { PluginLink } from 'components/PluginLink/PluginLink';
@@ -40,6 +40,7 @@ export const IntegrationSendDemoAlertModal: React.FC<IntegrationSendDemoPayloadM
       closeOnEscape
       isOpen={isOpen}
       onDismiss={onHideOrCancel}
+      ariaLabel={`Send demo alert to integration: ${alertReceiveChannel.verbal_name}`}
       title={
         <Stack>
           <Text.Title level={4}>

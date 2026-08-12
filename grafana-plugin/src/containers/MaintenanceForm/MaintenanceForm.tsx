@@ -6,10 +6,10 @@ import { Button, Drawer, Field, Select, Stack, useStyles2 } from '@grafana/ui';
 import { UserActions } from 'helpers/authorization/authorization';
 import { openNotification, showApiError } from 'helpers/helpers';
 import { observer } from 'mobx-react';
-import Emoji from 'react-emoji-render';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { getUtilStyles } from 'styles/utils.styles';
 
+import Emoji from 'components/Emoji/Emoji';
 import { GSelect } from 'containers/GSelect/GSelect';
 import { WithPermissionControlTooltip } from 'containers/WithPermissionControl/WithPermissionControlTooltip';
 import { AlertReceiveChannelHelper } from 'models/alert_receive_channel/alert_receive_channel.helpers';

@@ -173,6 +173,7 @@ export const UserSettings = observer(({ id, onHide, tab = UserSettingsTab.UserIn
     <>
       <Modal
         title={title}
+        ariaLabel={`${storeUser.username} settings`}
         className={cx(styles.modal, styles.modalWide)}
         isOpen
         closeOnEscape={false}

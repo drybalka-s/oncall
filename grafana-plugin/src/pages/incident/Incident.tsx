@@ -30,10 +30,10 @@ import Linkify from 'linkify-react';
 import { observer } from 'mobx-react';
 import moment from 'moment-timezone';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import Emoji from 'react-emoji-render';
 import reactStringReplace from 'react-string-replace';
 
 import { Collapse } from 'components/Collapse/Collapse';
+import Emoji from 'components/Emoji/Emoji';
 import { ExtensionLinkDropdown } from 'components/ExtensionLinkMenu/ExtensionLinkDropdown';
 import { FullPageError } from 'components/FullPageError/FullPageError';
 import { Block } from 'components/GBlock/Block';
@@ -663,7 +663,11 @@ class _IncidentPage extends React.Component<IncidentPageProps, IncidentPageState
           );
         case 'escalation_chain':
           return (
-            <a href={`${PLUGIN_ROOT}/escalations/${entity.escalation_chain?.pk}`} target="_blank" rel="noopener noreferrer">
+            <a
+              href={`${PLUGIN_ROOT}/escalations/${entity.escalation_chain?.pk}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Text underline>{entity.escalation_chain?.title}</Text>
             </a>
           );
@@ -681,7 +685,11 @@ class _IncidentPage extends React.Component<IncidentPageProps, IncidentPageState
           );
         case 'webhook':
           return (
-            <a href={`${PLUGIN_ROOT}/outgoing_webhooks/${entity.webhook?.pk}`} target="_blank" rel="noopener noreferrer">
+            <a
+              href={`${PLUGIN_ROOT}/outgoing_webhooks/${entity.webhook?.pk}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Text underline>{entity.webhook?.title}</Text>
             </a>
           );

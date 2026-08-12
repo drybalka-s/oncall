@@ -14,7 +14,7 @@ import {
   Themeable2,
   useStyles2,
 } from '@grafana/ui';
-import { sanitize } from 'dompurify';
+import DOMPurify from 'dompurify';
 import { LocationHelper } from 'helpers/LocationHelper';
 import { UserActions } from 'helpers/authorization/authorization';
 import { INTEGRATION_SERVICENOW, StackSize, PLUGIN_ROOT } from 'helpers/consts';
@@ -24,12 +24,12 @@ import { getItem, setItem } from 'helpers/localStorage';
 import { get } from 'lodash-es';
 import { observer } from 'mobx-react';
 import moment from 'moment-timezone';
-import Emoji from 'react-emoji-render';
 import { getUtilStyles } from 'styles/utils.styles';
 
 import { getTemplatesForEdit } from 'components/AlertTemplates/AlertTemplatesForm.config';
 import { TemplateForEdit } from 'components/AlertTemplates/CommonAlertTemplatesForm.config';
 import { CollapsibleTreeView, CollapsibleItem } from 'components/CollapsibleTreeView/CollapsibleTreeView';
+import Emoji from 'components/Emoji/Emoji';
 import { IntegrationContactPoint } from 'components/IntegrationContactPoint/IntegrationContactPoint';
 import { IntegrationHowToConnect } from 'components/IntegrationHowToConnect/IntegrationHowToConnect';
 import { IntegrationLogoWithTitle } from 'components/IntegrationLogo/IntegrationLogoWithTitle';
@@ -259,7 +259,9 @@ class _IntegrationPage extends React.Component<IntegrationProps, IntegrationStat
                   <Alert
                     title={
                       (
-                        <div dangerouslySetInnerHTML={{ __html: sanitize(alertReceiveChannel.description) }}></div>
+                        <div
+                          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(alertReceiveChannel.description) }}
+                        ></div>
                       ) as any
                     }
                     severity="info"

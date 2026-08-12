@@ -7,12 +7,12 @@ import dayjs from 'dayjs';
 import { PLUGIN_ROOT, StackSize } from 'helpers/consts';
 import { useIsLoading } from 'helpers/hooks';
 import { observer } from 'mobx-react';
-import { useNavigate } from 'react-router-dom-v5-compat';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { useNavigate } from 'react-router-dom';
 
 import { Avatar } from 'components/Avatar/Avatar';
 import { RenderConditionally } from 'components/RenderConditionally/RenderConditionally';
 import { Text } from 'components/Text/Text';
+import { CSSTransition, TransitionGroup } from 'components/Transition/Transition';
 import { Rotation } from 'containers/Rotation/Rotation';
 import { TimelineMarks } from 'containers/TimelineMarks/TimelineMarks';
 import { ActionKey } from 'models/loader/action-keys';

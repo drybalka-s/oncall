@@ -153,6 +153,7 @@ export const TeamModal = ({ teamId, onHide }: TeamModalProps) => {
   return (
     <Modal
       isOpen
+      ariaLabel={`${team.name} settings`}
       title={
         <Stack>
           <Text.Title level={4}>{team.name} settings</Text.Title>

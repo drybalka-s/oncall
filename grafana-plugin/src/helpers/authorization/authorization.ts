@@ -90,7 +90,7 @@ export const userHasMinimumRequiredRole = (minimumRoleRequired: OrgRole): boolea
  * As a fallback (second argument), for cases where RBAC is not enabled for a grafana instance, rely on basic roles
  */
 export const isUserActionAllowed = ({ permission, fallbackMinimumRoleRequired }: UserAction): boolean =>
-  config.featureToggles.accessControlOnCall
+  isAccessControlOnCallEnabled()
     ? !!contextSrv.user.permissions?.[permission]
     : userHasMinimumRequiredRole(fallbackMinimumRoleRequired);
 
@@ -99,7 +99,10 @@ export const isUserActionAllowed = ({ permission, fallbackMinimumRoleRequired }:
  * depending on whether or not RBAC is enabled/disabled
  */
 export const determineRequiredAuthString = ({ permission, fallbackMinimumRoleRequired }: UserAction): string =>
-  config.featureToggles.accessControlOnCall ? `${permission} permission` : `${fallbackMinimumRoleRequired} role`;
+  isAccessControlOnCallEnabled() ? `${permission} permission` : `${fallbackMinimumRoleRequired} role`;
+
+const isAccessControlOnCallEnabled = (): boolean =>
+  Boolean((config.featureToggles as Record<string, boolean>).accessControlOnCall);
 
 /**
  * Can be used to generate a user-friendly message about which permission is missing. Method is RBAC-aware

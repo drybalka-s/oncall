@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 
 import {
   DndContext,
@@ -23,10 +23,10 @@ import { UserActions } from 'helpers/authorization/authorization';
 import { openErrorNotification } from 'helpers/helpers';
 import { useIsLoading } from 'helpers/hooks';
 import { observer } from 'mobx-react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { RenderConditionally } from 'components/RenderConditionally/RenderConditionally';
 import { Text } from 'components/Text/Text';
+import { CSSTransition, TransitionGroup } from 'components/Transition/Transition';
 import { WithPermissionControlTooltip } from 'containers/WithPermissionControl/WithPermissionControlTooltip';
 import { AlertGroupColumn, AlertGroupColumnType } from 'models/alertgroup/alertgroup.types';
 import { ActionKey } from 'models/loader/action-keys';
@@ -47,7 +47,10 @@ function getColumnCombinedID(column: AlertGroupColumn) {
   return `${column.id}${KEY_DELIMITATOR}${column.type}`;
 }
 
-const ColumnRow: React.FC<ColumnRowProps> = ({ column, onItemChange, onColumnRemoval }) => {
+const ColumnRow = React.forwardRef<HTMLDivElement, ColumnRowProps>(function ColumnRow(
+  { column, onItemChange, onColumnRemoval },
+  ref
+) {
   const dnd = useSortable({
     id: getColumnCombinedID(column),
     data: {
@@ -58,16 +61,25 @@ const ColumnRow: React.FC<ColumnRowProps> = ({ column, onItemChange, onColumnRem
   const styles = useStyles2(getColumnsSelectorStyles);
 
   const { attributes, listeners, setNodeRef, transform, transition } = dnd;
-  const columnElRef = useRef<HTMLDivElement>(undefined);
-
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
 
   return (
-    <div ref={setNodeRef} style={{ ...style }} className={styles.columnRow}>
-      <div className={styles.columnItem} ref={columnElRef}>
+    <div
+      ref={(node) => {
+        setNodeRef(node);
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+      }}
+      style={{ ...style }}
+      className={styles.columnRow}
+    >
+      <div className={styles.columnItem}>
         <span className={styles.columnName}>{column.name}</span>
 
         {column.type === AlertGroupColumnType.LABEL && (
@@ -107,7 +119,7 @@ const ColumnRow: React.FC<ColumnRowProps> = ({ column, onItemChange, onColumnRem
       />
     </div>
   );
-};
+});
 
 interface ColumnsSelectorProps {
   onColumnAddModalOpen(): void;
