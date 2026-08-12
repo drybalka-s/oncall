@@ -11,12 +11,12 @@ SLACK_REGION_ERROR = "region_error"
 # https://api.slack.com/authentication/oauth-v2
 SLACK_OAUTH_ACCESS_RESPONSE = {
     "ok": True,
-    "access_token": "xoxb-17653672481-19874698323-pdFZKVeTuE8sk7oOcBrzbqgy",
+    "access_token": "test-bot-access-token",
     "token_type": "bot",
     "scope": "commands,incoming-webhook",
     "bot_user_id": "U0KRQLJ9H",
     "app_id": "A0KRD7HC3",
     "team": {"name": "Slack Softball Team", "id": "T9TK3CUKW"},
     "enterprise": {"name": "slack-sports", "id": "E12345678"},
-    "authed_user": {"id": "U1234", "scope": "chat:write", "access_token": "xoxp-1234", "token_type": "user"},
+    "authed_user": {"id": "U1234", "scope": "chat:write", "access_token": "test-user-access-token", "token_type": "user"},
 }

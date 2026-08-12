@@ -10,7 +10,7 @@ from firebase_admin import credentials, initialize_app
 from common.api_helpers.custom_ratelimit import getenv_custom_ratelimit
 from common.utils import getenv_boolean, getenv_float, getenv_integer, getenv_list
 
-VERSION = "1.16.11-2"
+VERSION = "1.16.11-3"
 SEND_ANONYMOUS_USAGE_STATS = getenv_boolean("SEND_ANONYMOUS_USAGE_STATS", default=True)
 
 # License is OpenSource or Cloud

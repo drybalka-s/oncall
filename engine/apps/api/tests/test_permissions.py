@@ -262,7 +262,7 @@ def test_user_has_minimum_required_basic_role(
                 permissions.RBACPermission.Permissions.ALERT_GROUPS_WRITE,
             ],
             False,
-            False,
+            True,
         ),
         (
             [permissions.RBACPermission.Permissions.ALERT_GROUPS_READ],

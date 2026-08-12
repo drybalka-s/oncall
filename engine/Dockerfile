@@ -1,5 +1,7 @@
-FROM python:3.13.11-alpine3.22 AS base
+FROM python:3.13.11-alpine3.23 AS base
 ARG TARGETPLATFORM
+
+RUN apk upgrade --no-cache
 
 # Create a group and user to run an app
 ENV APP_USER=appuser
@@ -30,6 +32,10 @@ RUN uv python pin 3.13.11
 # https://stackoverflow.com/a/71846527
 # RUN --mount=type=cache,target=/root/.cache/pip,from=pip_cache pip install -r requirements.txt
 RUN uv pip install --system -r requirements.txt
+RUN rm -rf /root/.cache
+# pip's bundled SBOM describes its vendored, non-importable copies of packages.
+# Runtime scanners otherwise report those copies as installed dependencies.
+RUN rm -f /usr/local/lib/python3.13/site-packages/pip/_vendor/bom.cdx.json
 
 # we intentionally have two COPY commands, this is to have the requirements.txt in a separate build step
 # which only invalidates when the requirements.txt actually changes. This avoids having to unneccasrily reinstall deps (which is time-consuming)
@@ -70,7 +76,13 @@ FROM dev AS dev-enterprise
 # RUN --mount=type=cache,target=/root/.cache/pip,from=pip_cache pip install -r requirements-enterprise-docker.txt
 RUN uv pip install --system -r requirements-enterprise-docker.txt
 
-FROM base AS prod
+FROM scratch AS prod
+
+COPY --from=base / /
+
+ENV APP_USER=appuser
+ENV prometheus_multiproc_dir=/tmp/prometheus_django_metrics
+WORKDIR /etc/app
 
 # Change to a non-root user (number is required by Kubernetes runAsNonRoot check)
 USER 1000

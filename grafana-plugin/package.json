@@ -1,6 +1,6 @@
 {
   "name": "grafana-oncall-app",
-  "version": "1.16.11-2",
+  "version": "1.16.11-3",
   "description": "Grafana OnCall Plugin",
   "scripts": {
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --max-warnings=65 ./src ./e2e-tests",
@@ -104,7 +104,7 @@
     "jest-html-reporters": "^3.1.7",
     "knip": "^5.0.3",
     "lint-staged": "^10.2.11",
-    "lodash-es": "^4.17.21",
+    "lodash-es": "^4.17.24",
     "mailslurp-client": "^15.14.1",
     "moment-timezone": "0.5.45",
     "openapi-typescript": "^7.4.0",
@@ -145,7 +145,7 @@
     "@grafana/ui": "^13.1.3",
     "@lifeomic/attempt": "^3.0.3",
     "array-move": "^4.0.0",
-    "axios": "^1.8.4",
+    "axios": "^1.16.0",
     "change-case": "^4.1.1",
     "circular-dependency-plugin": "^5.2.2",
     "classnames": "^2.3.2",
@@ -170,7 +170,7 @@
     "react-hook-form": "^7.50.1",
     "react-modal": "^3.16.3",
     "react-responsive": "^8.1.0",
-    "react-router-dom": "^6.28.0",
+    "react-router-dom": "^6.30.4",
     "react-string-replace": "^0.4.4",
     "react-transition-group": "^4.4.5",
     "react-use": "^17.4.0",
@@ -194,7 +194,23 @@
       "@babel/runtime@<7.26.10": ">=7.26.10",
       "@babel/helpers@<7.26.10": ">=7.26.10",
       "cookie@<0.7.0": ">=0.7.0",
-      "react-resizable@<3.1.3": "3.1.3"
+      "react-resizable@<3.1.3": "3.1.3",
+      "@remix-run/router@<1.23.2": "1.23.2",
+      "brace-expansion@<1.1.18": "1.1.18",
+      "fast-uri@<3.1.5": "3.1.5",
+      "flatted@<3.4.2": "3.4.2",
+      "form-data@<4.0.6": "4.0.6",
+      "js-cookie@<3.0.6": "3.0.6",
+      "js-yaml@<4.3.1": "4.3.1",
+      "lodash@<4.17.24": "4.18.1",
+      "lodash-es@<4.17.24": "4.18.1",
+      "minimatch@<3.1.4": "3.1.4",
+      "nanoid@<3.3.17": "3.3.17",
+      "picomatch@<2.3.2": "2.3.2",
+      "postcss@<8.5.18": "8.5.18",
+      "protobufjs@<7.6.1": "7.6.1",
+      "serialize-javascript@<7.0.3": "7.0.3",
+      "ws@<7.5.11": "7.5.11"
     }
   }
 }
