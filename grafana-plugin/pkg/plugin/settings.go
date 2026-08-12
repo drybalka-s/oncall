@@ -106,7 +106,7 @@ type OnCallSettingsCache struct {
 }
 
 const CLOUD_VERSION_PATTERN = `^(v\d+\.\d+\.\d+|github-actions-[a-zA-Z0-9-]+)$`
-const OSS_VERSION_PATTERN = `^(\d+\.\d+\.\d+)$`
+const OSS_VERSION_PATTERN = `^(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)$`
 const CLOUD_LICENSE_NAME = "Cloud"
 const OPEN_SOURCE_LICENSE_NAME = "OpenSource"
 const INCIDENT_PLUGIN_ID = "grafana-incident-app"
