@@ -81,6 +81,23 @@ describe('schedule permissions', () => {
   });
 });
 
+describe('alert group permissions', () => {
+  test('Viewer can act on alert groups and use direct paging without RBAC', () => {
+    contextSrv.user.orgRole = OrgRole.Viewer;
+    (config.featureToggles as Record<string, boolean>).accessControlOnCall = false;
+
+    expect(auth.isUserActionAllowed(auth.UserActions.AlertGroupsWrite)).toEqual(true);
+    expect(auth.isUserActionAllowed(auth.UserActions.AlertGroupsDirectPaging)).toEqual(true);
+  });
+
+  test('None role cannot act on alert groups without RBAC', () => {
+    contextSrv.user.orgRole = OrgRole.None;
+    (config.featureToggles as Record<string, boolean>).accessControlOnCall = false;
+
+    expect(auth.isUserActionAllowed(auth.UserActions.AlertGroupsWrite)).toEqual(false);
+  });
+});
+
 describe('determineRequiredAuthString', () => {
   const testPerm = auth.UserActions.UserSettingsRead;
 

@@ -225,11 +225,13 @@
     {
       "role": {
         "name": "Reader",
-        "description": "Read access to OnCall and read/write access to schedules",
+        "description": "Read access to OnCall and operational access to alert groups and schedules",
         "permissions": [
           { "action": "plugins.app:access", "scope": "plugins:id:grafana-oncall-app" },
 
           { "action": "grafana-oncall-app.alert-groups:read" },
+          { "action": "grafana-oncall-app.alert-groups:write" },
+          { "action": "grafana-oncall-app.alert-groups:direct-paging" },
           { "action": "grafana-oncall-app.integrations:read" },
           { "action": "grafana-oncall-app.escalation-chains:read" },
           { "action": "grafana-oncall-app.schedules:read" },

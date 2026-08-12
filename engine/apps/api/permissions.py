@@ -196,10 +196,10 @@ class RBACPermission(permissions.BasePermission):
             Resources.ALERT_GROUPS, Actions.READ, LegacyAccessControlRole.VIEWER
         )
         ALERT_GROUPS_WRITE = LegacyAccessControlCompatiblePermission(
-            Resources.ALERT_GROUPS, Actions.WRITE, LegacyAccessControlRole.EDITOR
+            Resources.ALERT_GROUPS, Actions.WRITE, LegacyAccessControlRole.VIEWER
         )
         ALERT_GROUPS_DIRECT_PAGING = LegacyAccessControlCompatiblePermission(
-            Resources.ALERT_GROUPS, Actions.DIRECT_PAGING, LegacyAccessControlRole.EDITOR
+            Resources.ALERT_GROUPS, Actions.DIRECT_PAGING, LegacyAccessControlRole.VIEWER
         )
 
         INTEGRATIONS_READ = LegacyAccessControlCompatiblePermission(

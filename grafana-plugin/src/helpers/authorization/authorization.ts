@@ -126,8 +126,8 @@ const constructAction = (
 
 export const UserActions: { [action in Actions]: UserAction } = {
   AlertGroupsRead: constructAction(Resource.ALERT_GROUPS, Action.READ, OrgRole.Viewer),
-  AlertGroupsWrite: constructAction(Resource.ALERT_GROUPS, Action.WRITE, OrgRole.Editor),
-  AlertGroupsDirectPaging: constructAction(Resource.ALERT_GROUPS, Action.DIRECT_PAGING, OrgRole.Editor),
+  AlertGroupsWrite: constructAction(Resource.ALERT_GROUPS, Action.WRITE, OrgRole.Viewer),
+  AlertGroupsDirectPaging: constructAction(Resource.ALERT_GROUPS, Action.DIRECT_PAGING, OrgRole.Viewer),
 
   IntegrationsRead: constructAction(Resource.INTEGRATIONS, Action.READ, OrgRole.Viewer),
   IntegrationsWrite: constructAction(Resource.INTEGRATIONS, Action.WRITE, OrgRole.Admin),

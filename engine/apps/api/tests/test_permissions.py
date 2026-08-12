@@ -106,14 +106,21 @@ class TestLegacyAccessControlCompatiblePermission:
                 permissions.LegacyAccessControlRole.VIEWER,
                 False,
                 False,
-                False,
+                True,
             ),
             (
                 permissions.RBACPermission.Permissions.ALERT_GROUPS_WRITE,
                 permissions.LegacyAccessControlRole.VIEWER,
                 False,
                 True,
+                True,
+            ),
+            (
+                permissions.RBACPermission.Permissions.ALERT_GROUPS_DIRECT_PAGING,
+                permissions.LegacyAccessControlRole.VIEWER,
                 False,
+                False,
+                True,
             ),
             (
                 permissions.RBACPermission.Permissions.SCHEDULES_WRITE,
